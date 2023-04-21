@@ -1,8 +1,12 @@
-typedef struct lse t_lse;
+#ifndef _LISTA_H
+#define _LISTA_H
+
+typedef struct lista t_lse;
 typedef void(*t_imprimir_lse)(void*);
 
 typedef int (*t_comparar_lse)(void* carga_na_lista, void* nova_carga);
-t_lse* criar_lse(t_imprimir_lse impressora, t_comparar_lse comparar);
+
+t_lse* criar_lse(void (*imprimir)(void*), int (*comparar)(void*, void*));
 
 void inserir_inicio_lse(t_lse* lse, void* carga);
 void* remover_inicio_lse(t_lse* lse);
@@ -15,3 +19,5 @@ void* buscar_lse(t_lse* lse, void* chave);
 void inserir_lse(t_lse* lse, void* carga);
 void destruir_lse(t_lse* lse);
 int tamanho_lse(t_lse* lse);
+
+#endif /* _LISTA_H */

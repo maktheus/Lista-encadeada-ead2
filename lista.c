@@ -3,14 +3,15 @@
 #include <string.h>
 #include "lista.h"
 
+
 typedef struct ElementoDaListaEncadeada {
-    void* elemento;
+    void* dado;
     struct ElementoDaListaEncadeada *prox;
 }elemento;
 
-elemento* criar_elemento(void* elemento){
-    elemento* novo = (elemento*)malloc(sizeof(elemento));
-    novo->elemento = elemento;
+elemento* criar_elemento(void* dado){
+    elemento* novo = malloc(sizeof(elemento));
+    novo->dado = dado;
     novo->prox = NULL;
     return novo;
 }
@@ -23,13 +24,14 @@ typedef struct listaEncadeada {
 } lista;
 
 t_lse* criar_lse(void (*imprimir)(void*), int (*comparar)(void*, void*)){
-    lista* lse = (lista*)malloc(sizeof(lista));
-    lse->inicio = NULL;
-    lse->tamanho = 0;
-    lse->imprimir = imprimir;
-    lse->comparar = comparar;
-    return lse;
+    lista* l = malloc(sizeof(lista));
+    l->inicio = NULL;
+    l->tamanho = 0;
+    l->imprimir = imprimir;
+    l->comparar = comparar;
+    return (t_lse*)l;
 }
+
 
 void inserir_inicio_lse(t_lse* lse, void* carga){
     lista* l = (lista*)lse;
@@ -51,7 +53,7 @@ void* remover_inicio_lse(t_lse* lse){
         elemento* aux = l->inicio;
         l->inicio = l->inicio->prox;
         l->tamanho--;
-        void* elemento = aux->elemento;
+        void* elemento = aux->dado;
         free(aux);
         return elemento;
     }
@@ -67,7 +69,7 @@ void* acessar_lse(t_lse* lse, int pos){
         for(i = 0; i < pos; i++){
             aux = aux->prox;
         }
-        return aux->elemento;
+        return aux->dado;
     }
 }
 
@@ -103,7 +105,7 @@ void* remover_final_lse(t_lse* lse){
             ant->prox = NULL;
         }
         l->tamanho--;
-        void* elemento = aux->elemento;
+        void* elemento = aux->dado;
         free(aux);
         return elemento;
     }
@@ -113,7 +115,7 @@ void imprimir_lse(t_lse* lse){
     lista* l = (lista*)lse;
     elemento* aux = l->inicio;
     while(aux != NULL){
-        l->imprimir(aux->elemento);
+        l->imprimir(aux->dado);
         aux = aux->prox;
     }
 }
@@ -125,7 +127,7 @@ void* remover_lse(t_lse* lse, void* chave){
     }else{
         elemento* aux = l->inicio;
         elemento* ant = NULL;
-        while(aux != NULL && l->comparar(aux->elemento, chave) != 0){
+        while(aux != NULL && l->comparar(aux->dado, chave) != 0){
             ant = aux;
             aux = aux->prox;
         }
@@ -138,7 +140,7 @@ void* remover_lse(t_lse* lse, void* chave){
                 ant->prox = aux->prox;
             }
             l->tamanho--;
-            void* elemento = aux->elemento;
+            void* elemento = aux->dado;
             free(aux);
             return elemento;
         }
@@ -151,13 +153,13 @@ void* buscar_lse(t_lse* lse, void* chave){
         return NULL;
     }else{
         elemento* aux = l->inicio;
-        while(aux != NULL && l->comparar(aux->elemento, chave) != 0){
+        while(aux != NULL && l->comparar(aux->dado, chave) != 0){
             aux = aux->prox;
         }
         if(aux == NULL){
             return NULL;
         }else{
-            return aux->elemento;
+            return aux->dado;
         }
     }
 }
@@ -170,7 +172,7 @@ void inserir_lse(t_lse* lse, void* carga){
     }else{
         elemento* aux = l->inicio;
         elemento* ant = NULL;
-        while(aux != NULL && l->comparar(aux->elemento, carga) < 0){
+        while(aux != NULL && l->comparar(aux->dado, carga) < 0){
             ant = aux;
             aux = aux->prox;
         }
