@@ -19,5 +19,7 @@ void* buscar_lse(t_lse* lse, void* chave);
 void inserir_lse(t_lse* lse, void* carga);
 void destruir_lse(t_lse* lse);
 int tamanho_lse(t_lse* lse);
+void remover_dado_temperatura(t_lse* lse, int dia, int hora, int minuto);
+void remover_dado_massa_de_ar(t_lse* lse, int dia, int hora, int minuto);
 
-#endif /* _LISTA_H */
+#endif 

@@ -2,7 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include "lista.h"
-
+#include "dadosMassaDeAr.h"
+#include "dadosTemperatura.h"
 
 typedef struct ElementoDaListaEncadeada {
     void* dado;
@@ -201,4 +202,83 @@ void destruir_lse(t_lse* lse){
         free(aux2);
     }
     free(l);
+}
+
+
+void deletar_elemento(t_lse* lse, void* chave){
+    lista* l = (lista*)lse;
+    if(l->inicio == NULL){
+        return;
+    }else{
+        elemento* aux = l->inicio;
+        elemento* ant = NULL;
+        while(aux != NULL && l->comparar(aux->dado, chave) != 0){
+            ant = aux;
+            aux = aux->prox;
+        }
+        if(aux == NULL){
+            return;
+        }else{
+            if(ant == NULL){
+                l->inicio = aux->prox;
+            }else{
+                ant->prox = aux->prox;
+            }
+            l->tamanho--;
+            free(aux);
+        }
+    }
+}
+
+
+//Rdia/mes/anohora:min-Removeroeventoqueocorreunadataespecificada.
+
+void remover_dado_temperatura(t_lse* lse, int dia, int hora, int minuto){
+    lista* l = (lista*)lse;
+    if(l->inicio == NULL){
+        return;
+    }else{
+        elemento* aux = l->inicio;
+        elemento* ant = NULL;
+        while(aux != NULL && ((dados_sensor_temperatura*)aux->dado)->dia != dia && ((dados_sensor_temperatura*)aux->dado)->hora != hora && ((dados_sensor_temperatura*)aux->dado)->minuto != minuto){
+            ant = aux;
+            aux = aux->prox;
+        }
+        if(aux == NULL){
+            return;
+        }else{
+            if(ant == NULL){
+                l->inicio = aux->prox;
+            }else{
+                ant->prox = aux->prox;
+            }
+            l->tamanho--;
+            free(aux);
+        }
+    }
+}
+
+void remover_dado_massa_de_ar(t_lse* lse, int dia, int hora, int minuto){
+    lista* l = (lista*)lse;
+    if(l->inicio == NULL){
+        return;
+    }else{
+        elemento* aux = l->inicio;
+        elemento* ant = NULL;
+        while(aux != NULL && ((DadosMassaDeAr*)aux->dado)->dia != dia && ((DadosMassaDeAr*)aux->dado)->hora != hora && ((DadosMassaDeAr*)aux->dado)->minuto != minuto){
+            ant = aux;
+            aux = aux->prox;
+        }
+        if(aux == NULL){
+            return;
+        }else{
+            if(ant == NULL){
+                l->inicio = aux->prox;
+            }else{
+                ant->prox = aux->prox;
+            }
+            l->tamanho--;
+            free(aux);
+        }
+    }
 }
