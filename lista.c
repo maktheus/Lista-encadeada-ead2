@@ -258,23 +258,29 @@ void remover_dado_temperatura(t_lse* lse, int dia, int hora, int minuto){
     }
 }
 
-void remover_dado_massa_de_ar(t_lse* lse, int dia, int hora, int minuto){
+int comparar_dados_data(void* dado, int dia, int hora, int minuto) {
+    dados_sensor_temperatura* temperatura = (dados_sensor_temperatura*)dado;
+    return temperatura->dia == dia && temperatura->hora == hora && temperatura->minuto == minuto;
+}
+
+
+void remover_dado(t_lse* lse, int dia, int hora, int minuto) {
     lista* l = (lista*)lse;
-    if(l->inicio == NULL){
+    if (l->inicio == NULL) {
         return;
-    }else{
+    } else {
         elemento* aux = l->inicio;
         elemento* ant = NULL;
-        while(aux != NULL && ((DadosMassaDeAr*)aux->dado)->dia != dia && ((DadosMassaDeAr*)aux->dado)->hora != hora && ((DadosMassaDeAr*)aux->dado)->minuto != minuto){
+        while (aux != NULL && !comparar_dados_data(aux->dado, dia, hora, minuto)) {
             ant = aux;
             aux = aux->prox;
         }
-        if(aux == NULL){
+        if (aux == NULL) {
             return;
-        }else{
-            if(ant == NULL){
+        } else {
+            if (ant == NULL) {
                 l->inicio = aux->prox;
-            }else{
+            } else {
                 ant->prox = aux->prox;
             }
             l->tamanho--;
@@ -282,3 +288,4 @@ void remover_dado_massa_de_ar(t_lse* lse, int dia, int hora, int minuto){
         }
     }
 }
+

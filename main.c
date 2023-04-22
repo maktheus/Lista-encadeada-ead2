@@ -86,7 +86,7 @@ int main(char *argv[], int argc){
     inserir_inicio_lse(lista, d4);
     inserir_inicio_lse(lista, d5);
 
-    remover_dado_temperatura(lista, 1, 1, 1);
+    remover_dado(lista, 1, 1, 1);
     imprimir_lse(lista);
     printf("\n\n");
 
